@@ -1,6 +1,4 @@
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class MyMain {
@@ -44,13 +42,53 @@ public class MyMain {
                         }
                         break;
                     case "contact":
-                        page.writeContact(masechet.getM(), perek.getName(),line.trim());
+                        page.writeContent(masechet.getM(), perek.getName(),line.trim());
                         break;
                 }
-            }} catch (Exception e) {
+            }
+            search(shas);
+        } catch (Exception e) {
             System.out.println(e);
         }
-        System.out.println(Arrays.toString(shas.getMasechets()));
+
+
+
+
+    }public static void search(Shas shas) {
+        Scanner scan = new Scanner(System.in);
+        String m,pag;
+        System.out.println("enter m");
+        m = scan.nextLine();
+        System.out.println("enter page");
+        pag = scan.nextLine();
+        for (int i = 0; i < shas.getMasechets().length; i++) {
+          //  System.out.println(shas.getMasechets()[i].getM());
+            if (m.equals(shas.getMasechets()[i].getM())){
+                for (int j = 0; j < shas.getMasechets()[i].getPereks().length; j++) {
+                    for (int k = 0; k < shas.getMasechets()[i].getPereks()[j].getPages().length; k++) {
+                        //System.out.println(shas.getMasechets()[i].getPereks()[j].getPages()[k].getName());
+                        if (pag.equals(shas.getMasechets()[i].getPereks()[j].getPages()[k].getName())){
+                            try {
+                                System.out.println(shas.getMasechets()[i].getPereks()[j].getPages()[k].getName());
+                                Scanner scanner = new Scanner(new File(shas.getMasechets()[i].getPereks()[j].getPages()[k].getName()));
+                                String line = scanner.nextLine();
+                                while (scanner.hasNextLine()){
+                                    System.out.println(line);
+                                }return;
+                            } catch (Exception e) {
+                                System.out.println(e);
+                            }
+                        }
+                    }
+
+                }
+                System.out.println("דף לא נמצא");
+            }
+
+        }
+        System.out.println("מסכת לא נמצאה");
+
+
     }
 
 
